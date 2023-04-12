@@ -1,0 +1,20 @@
+[package]
+name = "ethers-gcp-kms-signer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-trait = "0.1.68"
+ethers = "2.0.2"
+gcloud-sdk = { version = "0.19.19", features = ["google-cloud-kms-v1"] }
+thiserror = "1.0.40"
+tonic = "0.8"
+tracing = "0.1.37"
+
+[dependencies.spki]
+version = "0.7.1"
+features = ["pem"]
+
+[dev-dependencies]
+test-log = { version = "0.2.11", default-features = false }
+tokio = { version = "1.27.0", features = ["macros"] }
