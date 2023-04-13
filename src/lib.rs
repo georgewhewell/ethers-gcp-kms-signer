@@ -302,11 +302,21 @@ mod tests {
 
     #[test_log::test(tokio::test)]
     async fn it_works() {
-        let keyring = GcpKeyRingRef::new("domain-owner", "global", "my-first-keyring");
+        // skip test if no credentials are provided
+        if std::env::var("GOOGLE_APPLICATION_CREDENTIALS").is_err() {
+            return;
+        }
+
+        let project_id = std::env::var("GOOGLE_PROJECT_ID").expect("GOOGLE_PROJECT_ID");
+        let location = std::env::var("GOOGLE_LOCATION").expect("GOOGLE_LOCATION");
+        let keyring = std::env::var("GOOGLE_KEYRING").expect("GOOGLE_KEYRING");
+        let key_name = std::env::var("GOOGLE_KEY_NAME").expect("GOOGLE_KEY_NAME");
+
+        let keyring = GcpKeyRingRef::new(&project_id, &location, &keyring);
         let provider = GcpKmsProvider::new(keyring)
             .await
             .expect("Failed to create GCP KMS provider");
-        let signer = GcpKmsSigner::new(provider, "some-key-512".to_string(), 1, 1)
+        let signer = GcpKmsSigner::new(provider, key_name, 1, 1)
             .await
             .expect("get key");
 
