@@ -76,7 +76,7 @@ pub fn sig_from_digest_bytes_trial_recovery(
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct GcpKeyRingRef {
     pub google_project_id: String,
     pub location: String,
@@ -108,7 +108,7 @@ impl GcpKeyRingRef {
         )
     }
 }
-
+#[derive(Clone)]
 pub struct GcpKmsProvider {
     client: GoogleApi<KeyManagementServiceClient<GoogleAuthMiddleware>>,
     kms_key_ref: GcpKeyRingRef,
@@ -175,7 +175,7 @@ impl GcpKmsProvider {
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct GcpKmsSigner {
     provider: GcpKmsProvider,
     key_id: String,
