@@ -21,4 +21,4 @@ features = ["pem"]
 
 [dev-dependencies]
 test-log = { version = "0.2.11", default-features = false }
-tokio = { version = "1.27.0", features = ["macros"] }
+tokio = { version = "1.28.0", features = ["macros"] }
