@@ -7,5 +7,5 @@ edition = "2021"
 
 [dependencies]
 ethers = "2.0.3"
-tokio = { version = "1.27.0", features = ["macros"] }
+tokio = { version = "1.27.0", features = ["macros", "rt-multi-thread"] }
 ethers-gcp-kms-signer = { path = "../../" }
