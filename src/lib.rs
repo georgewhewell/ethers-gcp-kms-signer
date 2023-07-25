@@ -21,10 +21,9 @@ use gcloud_sdk::{
     },
     GoogleApi, GoogleAuthMiddleware,
 };
-// use spki::DecodePublicKey;
 use std::fmt::Debug;
 use tonic::Request;
-use tracing::{debug, instrument, trace};
+use tracing::{debug, instrument};
 
 mod error;
 pub use error::CKMSError;
@@ -108,6 +107,7 @@ impl GcpKeyRingRef {
         )
     }
 }
+
 #[derive(Clone)]
 pub struct GcpKmsProvider {
     client: GoogleApi<KeyManagementServiceClient<GoogleAuthMiddleware>>,
@@ -240,9 +240,6 @@ impl Signer for GcpKmsSigner {
     ) -> Result<Signature, Self::Error> {
         let message = message.as_ref();
         let message_hash = hash_message(message);
-        trace!("{:?}", message_hash);
-        trace!("{:?}", message);
-
         self.sign_digest_with_eip155(message_hash, self.chain_id)
             .await
     }
