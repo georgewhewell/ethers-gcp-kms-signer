@@ -4,6 +4,10 @@
 [![Docs.rs](https://docs.rs/ethers-gcp-kms-signer/badge.svg)](https://docs.rs/ethers-gcp-kms-signer)
 [![CI](https://github.com/georgewhewell/ethers-gcp-kms-signer/workflows/CI/badge.svg)](https://github.com/georgewhewell/ethers-gcp-kms-signer/actions)
 
+## Limitations
+
+At present, bug https://github.com/georgewhewell/ethers-gcp-kms-signer/issues/13 prevents using keys in locations other than `global`
+
 ## Installation
 
 ### Cargo
