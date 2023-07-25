@@ -1,6 +1,6 @@
 [package]
 name = "ethers-gcp-kms-signer"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 description = " ethers-rs signer using GCP KMS"
 repository = "https://github.com/georgewhewell/ethers-gcp-kms-signer"

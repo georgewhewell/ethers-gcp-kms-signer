@@ -56,6 +56,10 @@ First, init and apply the terraform:
     $ terraform init
     $ terraform apply
 
+Output the service account credentials:
+
+    $ terraform output service_account_key > service_account_key.json
+
 To export the service account key in a usable format:
 
     $ cat service_account_key.json | jq -r | base64 -d > ../demo-app/service_account_key.json
