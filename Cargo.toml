@@ -10,7 +10,7 @@ include = ["**/*.rs"]
 [dependencies]
 async-trait = "0.1.68"
 ethers = "2.0.7"
-gcloud-sdk = { version = "0.20.4", features = ["google-cloud-kms-v1"] }
+gcloud-sdk = { version = "0.21.0", features = ["google-cloud-kms-v1"] }
 thiserror = "1.0.40"
 tonic = "0.9"
 tracing = "0.1.37"
