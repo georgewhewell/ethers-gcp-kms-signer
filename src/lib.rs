@@ -147,9 +147,18 @@ impl GcpKmsProvider {
         key_id: &str,
         key_version: u64,
     ) -> Result<VerifyingKey, CKMSError> {
-        let request = tonic::Request::new(GetPublicKeyRequest {
-            name: self.kms_key_ref.to_key_version_ref(key_id, key_version),
+        let kms_key_name = self.kms_key_ref.to_key_version_ref(key_id, key_version);
+
+        let mut request = tonic::Request::new(GetPublicKeyRequest {
+            name: kms_key_name.clone(),
         });
+
+        // Add metadata for request routing: https://cloud.google.com/kms/docs/grpc
+        request.metadata_mut().insert(
+            "x-goog-request-params",
+            format!("name={}", kms_key_name.clone()).parse().unwrap(),
+        );
+
         let response = self.client.get().get_public_key(request).await?;
         let pem = response.into_inner().pem;
         let public_key = VerifyingKey::from_public_key_pem(&pem)?;
@@ -162,14 +171,23 @@ impl GcpKmsProvider {
         key_version: u64,
         digest: &[u8],
     ) -> Result<Vec<u8>, CKMSError> {
-        let req = Request::new(AsymmetricSignRequest {
-            name: self.kms_key_ref.to_key_version_ref(key_id, key_version),
+        let kms_key_name = self.kms_key_ref.to_key_version_ref(key_id, key_version);
+
+        let mut request = Request::new(AsymmetricSignRequest {
+            name: kms_key_name.clone(),
             digest: Some(kms::v1::Digest {
                 digest: Some(kms::v1::digest::Digest::Sha256(digest.to_vec())),
             }),
             ..Default::default()
         });
-        let response = self.client.get().asymmetric_sign(req).await?;
+
+        // Add metadata for request routing: https://cloud.google.com/kms/docs/grpc
+        request.metadata_mut().insert(
+            "x-goog-request-params",
+            format!("name={}", kms_key_name.clone()).parse().unwrap(),
+        );
+
+        let response = self.client.get().asymmetric_sign(request).await?;
         let signature = response.into_inner().signature;
         Ok(signature)
     }
